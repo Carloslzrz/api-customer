@@ -3,10 +3,14 @@ package com.customer.api.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.customer.api.entity.Region;
 import com.customer.api.repository.RepoRegion;
+import com.customer.exception.ApiException;
+import com.customer.exception.DBAccessException;
 
 @Service
 public class SvcRegionImp implements SvcRegion {
@@ -16,12 +20,20 @@ public class SvcRegionImp implements SvcRegion {
 
 	@Override
 	public List<Region> getRegions() {
-		return repo.getRegions();
+		try {
+			return repo.getRegions();
+		}catch (DataAccessException e) {
+			throw new DBAccessException(e);
+		}
 	}
 
 	@Override
 	public List<Region> getActiveRegions() {
-		return repo.getActiveRegions();
+		try {
+			return repo.getActiveRegions();
+		}catch (DataAccessException e) {
+			throw new DBAccessException(e);
+		}
 	}
 
 	@Override
@@ -29,13 +41,11 @@ public class SvcRegionImp implements SvcRegion {
 		try {
 			Region region = repo.getRegion(id);
 			if(region == null) {
-				throw new Exception("No existe la región");
+				throw new ApiException(HttpStatus.NOT_FOUND, "El id de la región no existe");
 			}
 			return region;
-		}catch (Exception e) {
-			System.out.println(e.getLocalizedMessage());
-			return null;
+		}catch (DataAccessException e) {
+			throw new DBAccessException(e);
 		}
 	}
-
 }
