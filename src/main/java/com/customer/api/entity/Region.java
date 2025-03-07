@@ -1,5 +1,8 @@
 package com.customer.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -9,10 +12,20 @@ import jakarta.persistence.Table;
 public class Region {	
 	
 	@Id
+	@JsonProperty("region_id")
+	@Column(name = "region_id")
 	private Integer region_id;
 	
+	@JsonProperty("region")
+	@Column(name = "region")
 	private String region;
+
+	@JsonProperty("tag")
+	@Column(name = "tag")
 	private String tag;
+
+	@JsonProperty("status")
+	@Column(name = "status")
 	private Integer status;
 	
 	public Region() {
