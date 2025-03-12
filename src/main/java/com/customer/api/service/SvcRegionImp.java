@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.customer.api.dto.DtoRegionIn;
+import com.customer.api.dto.in.DtoRegionIn;
 import com.customer.api.entity.Region;
 import com.customer.api.repository.RepoRegion;
-import com.customer.common.ApiResponse;
+import com.customer.common.dto.ApiResponse;
 import com.customer.exception.ApiException;
 import com.customer.exception.DBAccessException;
 
