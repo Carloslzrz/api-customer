@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.customer.api.dto.DtoRegionIn;
+import com.customer.api.dto.in.DtoRegionIn;
 import com.customer.api.entity.Region;
-import com.customer.common.ApiResponse;
+import com.customer.common.dto.ApiResponse;
 
 public interface SvcRegion {
 

@@ -15,61 +15,56 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.customer.api.dto.in.DtoRegionIn;
-import com.customer.api.entity.Region;
-import com.customer.api.service.SvcRegion;
+import com.customer.api.dto.in.DtoCustomerIn;
+import com.customer.api.dto.out.DtoCustomerListOut;
+import com.customer.api.dto.out.DtoCustomerOut;
+import com.customer.api.service.SvcCustomer;
 import com.customer.common.dto.ApiResponse;
 import com.customer.exception.ApiException;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/region")
-public class CtrlRegion {
+@RequestMapping("/customer")
+public class CtrlCustomer {
 
 	@Autowired
-	SvcRegion svc;
+	SvcCustomer svc;
 
 	@GetMapping
-	public ResponseEntity<List<Region>> getRegions() {
-		return svc.getRegions();
-	}
-
-	@GetMapping("/active")
-	public ResponseEntity<List<Region>> getActiveRegions() {
-		return svc.getActiveRegions();
+	public ResponseEntity<List<DtoCustomerListOut>> getCustomers() {
+		return svc.getCustomers();
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Region> getRegion(@PathVariable Integer id) {
-		return svc.getRegion(id);
+	public ResponseEntity<DtoCustomerOut> getCustomer(@PathVariable Integer id) {
+		return svc.getCustomer(id);
 	}
 
 	@PostMapping
-	public ResponseEntity<ApiResponse> createRegion(@Valid @RequestBody DtoRegionIn in, BindingResult bindingResult) {
+	public ResponseEntity<ApiResponse> createCustomer(@Valid @RequestBody DtoCustomerIn in, BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
 			throw new ApiException(HttpStatus.BAD_REQUEST, bindingResult.getFieldError().getDefaultMessage());
 
-		return svc.createRegion(in);
+		return svc.createCustomer(in);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ApiResponse> updateRegion(@PathVariable Integer id, @Valid @RequestBody DtoRegionIn in,
+	public ResponseEntity<ApiResponse> updateCustomer(@PathVariable Integer id, @Valid @RequestBody DtoCustomerIn in,
 			BindingResult bindingResult) {
 		if (bindingResult.hasErrors())
 			throw new ApiException(HttpStatus.BAD_REQUEST, bindingResult.getFieldError().getDefaultMessage());
 
-		return svc.updateRegion(id, in);
+		return svc.updateCustomer(id, in);
 	}
 
 	@PatchMapping("/{id}/enable")
-	public ResponseEntity<ApiResponse> enableRegion(@PathVariable Integer id) {
-		return svc.enableRegion(id);
+	public ResponseEntity<ApiResponse> enableCustomer(@PathVariable Integer id) {
+		return svc.enableCustomer(id);
 	}
 
 	@PatchMapping("/{id}/disable")
-	public ResponseEntity<ApiResponse> disableRegion(@PathVariable Integer id) {
-		return svc.disableRegion(id);
+	public ResponseEntity<ApiResponse> disableCustomer(@PathVariable Integer id) {
+		return svc.disableCustomer(id);
 	}
-
 }
