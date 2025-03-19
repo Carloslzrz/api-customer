@@ -37,6 +37,7 @@ public class MapperCustomer {
         customer.setUser_id(dto.getUser_id());
         customer.setRegion_id(dto.getRegion_id());
         customer.setStatus(1);
+        
         return customer;
 	}
 	
