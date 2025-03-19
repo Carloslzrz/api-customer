@@ -27,17 +27,17 @@ import com.customer.exception.ApiException;
 import com.customer.exception.DBAccessException;
 
 @Service
-public class SvcCustomerImp implements SvcCustomer {
-
+public class SvcCustomerImp implements SvcCustomer{
+	
 	@Autowired
 	RepoCustomer repo;
-
+	
 	@Autowired
 	RepoCustomerImage repoCustomerImage;
-
+	
 	@Autowired
 	MapperCustomer mapper;
-
+	
 	@Value("${app.upload.dir}")
 	private String uploadDir;
 
@@ -46,7 +46,7 @@ public class SvcCustomerImp implements SvcCustomer {
 		try {
 			List<Customer> customers = repo.findAll();
 			return new ResponseEntity<>(mapper.fromCustomerList(customers), HttpStatus.OK);
-		} catch (DataAccessException e) {
+		}catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}
 	}
@@ -60,9 +60,9 @@ public class SvcCustomerImp implements SvcCustomer {
 			
 			String image = readCustomerImageFile(id);
 			customer.setImage(image);
-						
+			
 			return new ResponseEntity<>(customer, HttpStatus.OK);
-		} catch (DataAccessException e) {
+		}catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}
 	}
@@ -73,7 +73,7 @@ public class SvcCustomerImp implements SvcCustomer {
 			Customer customer = mapper.fromDto(in);
 			repo.save(customer);
 			return new ResponseEntity<>(new ApiResponse("El cliente ha sido registrado"), HttpStatus.CREATED);
-		} catch (DataAccessException e) {
+		}catch (DataAccessException e) {
 			if (e.getLocalizedMessage().contains("ux_customer_rfc"))
 				throw new ApiException(HttpStatus.CONFLICT, "El rfc del cliente ya está registrado");
 			if (e.getLocalizedMessage().contains("ux_customer_mail"))
@@ -92,7 +92,7 @@ public class SvcCustomerImp implements SvcCustomer {
 			Customer customer = mapper.fromDto(id, in);
 			repo.save(customer);
 			return new ResponseEntity<>(new ApiResponse("El cliente ha sido actualizado"), HttpStatus.OK);
-		} catch (DataAccessException e) {
+		}catch (DataAccessException e) {
 			if (e.getLocalizedMessage().contains("ux_customer_rfc"))
 				throw new ApiException(HttpStatus.CONFLICT, "El rfc del cliente ya está registrado");
 			if (e.getLocalizedMessage().contains("ux_customer_mail"))
@@ -112,7 +112,7 @@ public class SvcCustomerImp implements SvcCustomer {
 			customer.setStatus(1);
 			repo.save(customer);
 			return new ResponseEntity<>(new ApiResponse("El cliente ha sido activado"), HttpStatus.OK);
-		} catch (DataAccessException e) {
+		}catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}
 	}
@@ -125,50 +125,51 @@ public class SvcCustomerImp implements SvcCustomer {
 			customer.setStatus(0);
 			repo.save(customer);
 			return new ResponseEntity<>(new ApiResponse("El cliente ha sido desactivado"), HttpStatus.OK);
-		} catch (DataAccessException e) {
+		}catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}
 	}
-
+	
 	private void validateCustomerId(Integer id) {
 		try {
-			if (repo.findById(id).isEmpty()) {
+			if(repo.findById(id).isEmpty()) {
 				throw new ApiException(HttpStatus.NOT_FOUND, "El id del cliente no existe");
 			}
-		} catch (DataAccessException e) {
+		}catch (DataAccessException e) {
 			throw new DBAccessException(e);
 		}
 	}
-
+	
 	private String readCustomerImageFile(Integer customer_id) {
-		try {
-			CustomerImage customerImage = repoCustomerImage.findByCustomer_id(customer_id);
-			if (customerImage == null)
-				return "";
-
-			String imageUrl = customerImage.getImage();
-
-			// Si la URL comienza con "/" la eliminamos para obtener la ruta relativa
-			if (imageUrl.startsWith("/")) {
-				imageUrl = imageUrl.substring(1);
-			}
-
-			// Construir el Path
-			Path imagePath = Paths.get(uploadDir, imageUrl);
-
-			// Verifica que el archivo exista
-			if (!Files.exists(imagePath))
-				return "";
-
-			// Leer los bytes de la imagen y codificarlos a Base64
-			byte[] imageBytes = Files.readAllBytes(imagePath);
-			return Base64.getEncoder().encodeToString(imageBytes);
-
-		} catch (DataAccessException e) {
-			throw new DBAccessException(e);
-		} catch (IOException e) {
-			throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al leer el archivo");
-		}
+	    try {
+		CustomerImage customerImage = repoCustomerImage.findByCustomer_id(customer_id);
+		if(customerImage == null)
+			return "";
+		
+		String imageUrl = customerImage.getImage();
+		
+		// Si la URL comienza con "/" la eliminamos para obtener la ruta relativa
+	  	 if (imageUrl.startsWith("/")) {
+	       	    imageUrl = imageUrl.substring(1);
+	   	}
+	  
+	  	 // Construir el Path
+	  	 Path imagePath = Paths.get(uploadDir, imageUrl);
+	  
+	  	 // Verifica que el archivo exista
+	   	if (!Files.exists(imagePath))
+	   	    return "";
+	  
+	// Leer los bytes de la imagen y codificarlos a Base64
+	byte[] imageBytes = Files.readAllBytes(imagePath);
+	return Base64.getEncoder().encodeToString(imageBytes);
+	    
+	    }catch (DataAccessException e) {
+	    	throw new DBAccessException(e);
+	    }catch (IOException e) {
+	    	throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al leer el archivo");
+	    }
 	}
+
 
 }

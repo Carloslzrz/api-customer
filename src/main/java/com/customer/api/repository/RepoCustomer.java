@@ -11,8 +11,8 @@ import com.customer.api.entity.Customer;
 public interface RepoCustomer extends JpaRepository<Customer, Integer> {
 
 	@Query(value = "SELECT c.*, r.region "
-		+ "FROM customer c "
-		+ "INNER JOIN region r ON r.region_id = c.region_id "
+			+ "FROM customer c "
+			+ "INNER JOIN region r ON r.region_id = c.region_id "
 			+ "WHERE c.customer_id = :customer_id;", nativeQuery = true)
 	DtoCustomerOut getCustomer(Integer customer_id);
 }
