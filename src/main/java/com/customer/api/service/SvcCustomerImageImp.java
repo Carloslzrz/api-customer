@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.UUID;
 
-import org.hibernate.annotations.SecondaryRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
@@ -64,13 +63,13 @@ public class SvcCustomerImageImp implements SvcCustomerImage {
 				// Crear la entidad CustomerImage y guardar la URL en la base de datos
 				customerImage = new CustomerImage();
 				customerImage.setCustomer_id(in.getCustomer_id());
-				customerImage.setImage("/" + uploadDir + "/img/customer/" + fileName);
+				customerImage.setImage("img/customer/" + fileName);
 				customerImage.setStatus(1); 
 
 				// Guardar la ruta de la imagen
 				repo.save(customerImage);
 			}else {
-				customerImage.setImage("/" + uploadDir + "/img/customer/" + fileName);
+				customerImage.setImage("img/customer/" + fileName);
 				repo.save(customerImage);
 			}
 			
