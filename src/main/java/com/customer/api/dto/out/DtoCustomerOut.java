@@ -8,7 +8,7 @@ import jakarta.persistence.Transient;
 @Entity
 @Table(name = "customer")
 public class DtoCustomerOut {
-	
+
 	@Id
 	private Integer customer_id;
 	
@@ -100,5 +100,6 @@ public class DtoCustomerOut {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	
 	
 }
