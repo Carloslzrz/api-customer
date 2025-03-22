@@ -10,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,7 @@ public class SvcCustomerImp implements SvcCustomer{
 	@Override
 	public ResponseEntity<List<DtoCustomerListOut>> getCustomers() {
 		try {
-			List<Customer> customers = repo.findAll();
+			List<Customer> customers = repo.findAll(Sort.by(Sort.Direction.ASC, "rfc"));
 			return new ResponseEntity<>(mapper.fromCustomerList(customers), HttpStatus.OK);
 		}catch (DataAccessException e) {
 			throw new DBAccessException(e);
