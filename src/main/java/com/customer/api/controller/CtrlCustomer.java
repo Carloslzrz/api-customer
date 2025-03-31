@@ -22,10 +22,12 @@ import com.customer.api.service.SvcCustomer;
 import com.customer.common.dto.ApiResponse;
 import com.customer.exception.ApiException;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/customer")
+@Tag(name = "Customer", description = "Administración de clientes")
 public class CtrlCustomer {
 
 	@Autowired
