@@ -21,10 +21,13 @@ import com.customer.api.service.SvcRegion;
 import com.customer.common.dto.ApiResponse;
 import com.customer.exception.ApiException;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/region")
+@Tag(name = "Region", description = "Catálogo de regiones")
 public class CtrlRegion {
 
 	@Autowired
@@ -41,6 +44,7 @@ public class CtrlRegion {
 	}
 
 	@GetMapping("/{id}")
+//	@Operation(summary = "Consulta detalle de región", description = "Retorna el detalle de una región")
 	public ResponseEntity<Region> getRegion(@PathVariable Integer id) {
 		return svc.getRegion(id);
 	}
