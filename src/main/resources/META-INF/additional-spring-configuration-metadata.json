@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "api.auth.url",
+    "type": "java.lang.String",
+    "description": "URL base del servicio de autenticación/autorización del sistema'"
+  },
+  {
+    "name": "app.upload.dir",
+    "type": "java.lang.String",
+    "description": "Directorio de carga de recursos?"
+  }
+]}
